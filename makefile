@@ -1,30 +1,21 @@
-.PHONY: main clean compile myimage
+.PHONY: clean compile 
 
-main: Main.class
-	@java Main script
-myimage: Main.class
-	@java Main myimage
-compile: Main.class
+SGRAPH=src/graphics
+BUILD=build
 
-Main.class: Main.java Matrix.class Screen.class Parser.class EdgeMatrix.class Commands.class
-	@javac Main.java
-Matrix.class: Matrix.java
-	@javac Matrix.java
-Screen.class: Screen.java
-	@javac Screen.java
-Parser.class: Parser.java
-	@javac Parser.java
-EdgeMatrix.class: EdgeMatrix.java
-	@javac EdgeMatrix.java
-Commands.class: Commands.java
-	@javac Commands.java
-ScriptMaker.class: ScriptMaker.java
-	@javac ScriptMaker.java
-script: ScriptMaker.class
-	@java ScriptMaker model.obj >>out.txt
-rot: RotMaker.class
-	@java RotMaker >>out.txt
-RotMaker.class: RotMaker.java
-	@javac RotMaker.java
+compile: $(BUILD)/Main.class
+
+$(BUILD)/Main.class: $(SGRAPH)/Main.java $(BUILD)/Matrix.class $(BUILD)/Screen.class $(BUILD)/Parser.class $(BUILD)/EdgeMatrix.class $(BUILD)/Commands.class
+	@javac -cp $(BUILD)/ $(SGRAPH)/Main.java -d $(BUILD)/
+$(BUILD)/Screen.class: $(SGRAPH)/Screen.java
+	@javac -cp $(BUILD)/ $(SGRAPH)/Screen.java -d $(BUILD)/ 
+$(BUILD)/Parser.class: $(SGRAPH)/Parser.java $(BUILD)/Commands.class
+	@javac -cp $(BUILD)/ $(SGRAPH)/Parser.java -d $(BUILD)/
+$(BUILD)/Commands.class: $(SGRAPH)/Commands.java $(BUILD)/EdgeMatrix.class
+	@javac -cp $(BUILD)/ $(SGRAPH)/Commands.java -d $(BUILD)/
+$(BUILD)/EdgeMatrix.class: $(SGRAPH)/EdgeMatrix.java $(BUILD)/Matrix.class
+	@javac -cp $(BUILD)/ $(SGRAPH)/EdgeMatrix.java -d $(BUILD)/
+$(BUILD)/Matrix.class: $(SGRAPH)/Matrix.java
+	@javac -cp $(BUILD)/ $(SGRAPH)/Matrix.java -d $(BUILD)/
 clean: 
-	@rm *.class
+	@rm $(BUILD)/*
