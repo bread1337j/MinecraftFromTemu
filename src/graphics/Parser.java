@@ -1,3 +1,5 @@
+package graphics;
+
 import java.util.*;
 import java.io.*;
 import java.util.function.Consumer;
@@ -36,6 +38,8 @@ public class Parser {
 		map.put("box", Commands::box);
 		map.put("sphere", Commands::sphere);
 		map.put("torus", Commands::torus);
+        map.put("customMatrix", Commands::customMatrix);
+        map.put("proj2D", Commands::proj2D);
 	}
 
 
@@ -49,11 +53,12 @@ public class Parser {
         Consumer<String> cmd = null;
         while(sc.hasNextLine()){
             String line = sc.nextLine().strip();
-            //System.out.println(line);
+            System.out.println(line);
             if(line.isEmpty() || line.charAt(0) == '#') continue;
             if(map.containsKey(line)){
                 if(cmd != null){
                     //0 args command was last line
+                    //System.out.println("No arg cmd, it is before the call to " + line);
                     cmd.accept(" ");
                 }
                 cmd = map.get(line);

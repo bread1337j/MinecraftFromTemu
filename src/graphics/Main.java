@@ -1,9 +1,11 @@
+package graphics;
+
 import java.util.*;
 import java.io.*;
 import java.awt.*;
 
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) { //running this main is how the frames get processed :trollface:
 
 		Color c = Color.GREEN;
 		Screen s = new Screen();

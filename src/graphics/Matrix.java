@@ -1,3 +1,4 @@
+package graphics;
 /*==========================================
   A matrix will be an arraylist of size 4 double arrays.
   Each array  will represent an [x, y, z, 1] point.
@@ -16,9 +17,9 @@ public class Matrix {
 	public static int SCALE = 1;
 	public static int ROTATE = 2;
 
-	protected ArrayList<double []>m;
+	public ArrayList<double []>m;
 
-	Matrix() {
+	public Matrix() {
 		m = new ArrayList<double []>();
 	}//constructor
 
@@ -141,6 +142,16 @@ and z as the axis of rotation.
 		}
 	}//ident
 
+	public Matrix inline_ident() {
+		m = new ArrayList<double []>();
+		for (int i=0; i<POINT_SIZE; i++) {
+			double[] point = new double[POINT_SIZE];
+			point[i] = 1;
+			m.add(point);
+		}
+		return this;
+	}
+
 
 
 	public void mult(Matrix a) {
@@ -167,19 +178,33 @@ and z as the axis of rotation.
 		m = new ArrayList<double[] >();
 	}//clear
 
+	public String multstring(String str, int n){
+		StringBuilder out = new StringBuilder();
+		for(int i=0; i<n; i++){
+			out.append(str);
+		}
+		return out.toString();
+	}
+	/*======== void toString() ==========
+	Inputs:
+	Returns: A String representation of the matrix
+	====================*/
 	public String toString() {
-
-		String s = "";
-		if (m.size() == 0) {
-			return s;
-		}
-
-		for (int i=0; i<POINT_SIZE; i++) {
-			for (double[] p : m) {
-				s+= p[i] + " ";
+		StringBuilder s = new StringBuilder();
+		int[] colen = new int[this.m.size()];
+		for(int i=0; i<this.m.size(); i++){
+			for(int j=0; j<this.m.get(i).length; j++){
+				if(colen[i] < ("" + this.m.get(i)[j]).length()){
+					colen[i] = ("" + this.m.get(i)[j]).length(); //this is an actual incantation
+				}
 			}
-			s+= "\n";
 		}
-		return s;
+		for(int j=0; j<this.m.get(0).length; j++){
+			for(int i=0; i<this.m.size(); i++){
+				s.append(this.m.get(i)[j] + multstring(" " , (colen[i]-("" + this.m.get(i)[j]).length())) + " ");
+			}
+			s.append("\n");
+		}
+		return s.toString();
 	}
 }//Matrix

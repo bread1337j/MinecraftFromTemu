@@ -1,10 +1,13 @@
 .PHONY: clean compile 
 
 SGRAPH=src/graphics
+SMAIN=src/game
 BUILD=build
 
-compile: $(BUILD)/Main.class
+compile: $(BUILD)/FrameGen.class
 
+$(BUILD)/FrameGen.class: $(SMAIN)/FrameGen.java $(BUILD)/Main.class
+	@javac -cp $(BUILD)/  $(SMAIN)/FrameGen.java -d $(BUILD)/
 $(BUILD)/Main.class: $(SGRAPH)/Main.java $(BUILD)/Matrix.class $(BUILD)/Screen.class $(BUILD)/Parser.class $(BUILD)/EdgeMatrix.class $(BUILD)/Commands.class
 	@javac -cp $(BUILD)/ $(SGRAPH)/Main.java -d $(BUILD)/
 $(BUILD)/Screen.class: $(SGRAPH)/Screen.java
@@ -18,4 +21,4 @@ $(BUILD)/EdgeMatrix.class: $(SGRAPH)/EdgeMatrix.java $(BUILD)/Matrix.class
 $(BUILD)/Matrix.class: $(SGRAPH)/Matrix.java
 	@javac -cp $(BUILD)/ $(SGRAPH)/Matrix.java -d $(BUILD)/
 clean: 
-	@rm $(BUILD)/*
+	@rm -rf $(BUILD)/*

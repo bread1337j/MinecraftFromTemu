@@ -1,7 +1,10 @@
+package graphics;
+
 import java.awt.*;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.*;
+
 public class Commands {
 	
 	private static EdgeMatrix eMatrix;
@@ -163,17 +166,32 @@ public class Commands {
         matrix.mult(new Matrix(Matrix.ROTATE, Double.parseDouble(args[1]), args[0].charAt(0)));
     }
 
+	public static void customMatrix(String str){
+		//00 01 02 03
+		//10 11 12 13 etc
+		String[] args = str.split(" ");
+		Matrix m = new Matrix();
+		m.ident();
+		for(int i=0; i<16; i++) {
+			m.m.get(i/4)[i%4] = Double.parseDouble(args[i]);
+		}
+		matrix.mult(m);
+
+	}
+
     public static void apply(String str){ //they have to take in an argument ok they're all Consumer<String> objects
         //System.out.println(matrix);
         matrix.reverseMult(eMatrix);
-        //System.out.println(matrix);
+        //System.out.println(eMatrix);
         //System.out.println(Arrays.toString(eMatrix.m.get(0)));
     }
 
     public static void display(String str){
+		System.out.println("Display got called");
         s.clearScreen();
         eMatrix.drawEdges(s, clr);
         s.display();
+		System.out.println("Display finished its thing");
     }
 
 
@@ -181,6 +199,7 @@ public class Commands {
 		String args[] = str.split(" ");
 		Color clr = new Color(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
 		eMatrix.drawEdges(s, clr);
+		System.out.println("Draw clr finished its thing");
 	}
 	
 	public static void justSave(String str){
@@ -209,6 +228,29 @@ public class Commands {
         matrix.ident();
     }
 
+	public static void proj2D(String str){
+		double arr[];
+		for(int i=0; i<eMatrix.m.size(); i++){
+			//System.out.print(i);
+			arr = eMatrix.m.get(i);
+			//System.out.println(": " + Arrays.toString(arr));
+
+			//arr[0] = ((arr[0]) / arr[3]) + 250;
+			//System.out.print("->(" + arr[0] + ", ");
+			//arr[1] = ((arr[1]) / arr[3]) + 250;
+			//System.out.println(arr[1] + ") ");
+			if(arr[2] > 0.1 || arr[2] < -0.1) {
+				arr[0] = arr[0] * 250 / arr[2] + 250;
+				arr[1] = arr[1] * 250 / arr[2] + 250;
+			}
+		}
+		/*System.out.println("Post-projection matrix: ");
+		for(int i=0; i<eMatrix.m.size(); i++) {
+			System.out.print(i);
+			arr = eMatrix.m.get(i);
+			System.out.println(": " + Arrays.toString(arr));
+		}*/
+	}
 
 	public static void bezier(String str){
 		String[] args = str.split(" ");

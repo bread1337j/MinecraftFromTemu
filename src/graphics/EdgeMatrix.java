@@ -1,3 +1,5 @@
+package graphics;
+
 import java.util.*;
 import java.awt.*;
 
@@ -21,6 +23,7 @@ public class EdgeMatrix extends Matrix {
       double[] p0 = m.get(point);
       double[] p1 = m.get(point+1);
       s.drawLine((int)p0[0], (int)p0[1], (int)p1[0], (int)p1[1], c);
+      //System.out.println("Drawing line " + point);
     }//draw lines
   }//drawEdges
 
