@@ -53,7 +53,7 @@ public class Parser {
         Consumer<String> cmd = null;
         while(sc.hasNextLine()){
             String line = sc.nextLine().strip();
-            System.out.println(line);
+            //System.out.println(line);
             if(line.isEmpty() || line.charAt(0) == '#') continue;
             if(map.containsKey(line)){
                 if(cmd != null){

@@ -40,11 +40,11 @@ public class FrameGen{
                     writer.write("box\n" + x + " -200 " + z + " 50 50 50\n");
                 }
             }
-            writer.write("customMatrix\n");
+            writer.write("\nident\nrotate\ny 20\napply\nident\ncustomMatrix\n");
             for(int i=0; i<16; i++){
                 writer.write(projection.m.get(i/4)[i%4] + " ");
             }
-            //writer.write("\nrotate\n y 20\nrotate\nx 20");
+            //writer.write("\nrotate\n y 5");
 
             writer.write("\napply\nproj2D\ndisplay\nsave\nimg.png");
             writer.close();

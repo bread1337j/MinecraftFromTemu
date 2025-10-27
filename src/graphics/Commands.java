@@ -230,19 +230,23 @@ public class Commands {
 
 	public static void proj2D(String str){
 		double arr[];
+        EdgeMatrix nm = new EdgeMatrix();
 		for(int i=0; i<eMatrix.m.size(); i++){
-			//System.out.print(i);
+			System.out.print(i);
 			arr = eMatrix.m.get(i);
-			//System.out.println(": " + Arrays.toString(arr));
+			System.out.println(": " + Arrays.toString(arr));
 
 			//arr[0] = ((arr[0]) / arr[3]) + 250;
 			//System.out.print("->(" + arr[0] + ", ");
 			//arr[1] = ((arr[1]) / arr[3]) + 250;
 			//System.out.println(arr[1] + ") ");
-			if(arr[2] > 0.1 || arr[2] < -0.1) {
-				arr[0] = arr[0] * 250 / arr[2] + 250;
-				arr[1] = arr[1] * 250 / arr[2] + 250;
-			}
+            if(arr[3] < 0) {
+                if (arr[2] > 0.1 || arr[2] < -0.1) {
+                    arr[0] = arr[0] * 250 / arr[2] + 250;
+                    arr[1] = arr[1] * 250 / arr[2] + 250;
+                }
+                nm.addColumn(arr[0], arr[1], arr[2], arr[3]);
+            }
 		}
 		/*System.out.println("Post-projection matrix: ");
 		for(int i=0; i<eMatrix.m.size(); i++) {
@@ -250,6 +254,10 @@ public class Commands {
 			arr = eMatrix.m.get(i);
 			System.out.println(": " + Arrays.toString(arr));
 		}*/
+        eMatrix = nm;
+        if(eMatrix.m.size()%2==1){
+            eMatrix.m.removeLast();
+        }
 	}
 
 	public static void bezier(String str){
